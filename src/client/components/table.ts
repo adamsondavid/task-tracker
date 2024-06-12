@@ -42,7 +42,7 @@ export type TableFields<T extends TableItem> = {
                     *ngTemplateOutlet="tableFields()[key]!.template!() ?? null; context: { $implicit: item }"
                   />
                 } @else {
-                  {{ item[key] }}
+                  <span>{{ item[key] }}</span>
                 }
               </td>
             }
@@ -53,10 +53,10 @@ export type TableFields<T extends TableItem> = {
   `,
 })
 export class Table<T extends TableItem> {
-  readonly tableItems = input.required<T[]>();
   readonly tableFields = input.required<TableFields<T>>();
-  readonly tableFieldKeys = computed(() => Object.keys(this.tableFields()));
+  readonly tableItems = input.required<T[]>();
 
+  readonly tableFieldKeys = computed(() => Object.keys(this.tableFields()));
   readonly sortField = signal<undefined | keyof T>(undefined);
   readonly sortAsc = signal(false);
   readonly sortedTableItems = computed(() => {
